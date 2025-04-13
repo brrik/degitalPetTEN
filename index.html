@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>デジタルペット TEN</title>
+</head>
+<body>
+    <h1>デジタルペット TEN</h1>
+    <div>
+        <p>TENは、このページを開いているあいだ、どんどん大きく成長します。</p>
+        <p>このページを離れると、TENは小さく戻ってしまいます。</p>
+        <p>勉強しているときなど、画面を触っちゃだめなときに</p>
+        <p>いっしょに育ててあげてください。</p>
+        <p>ここまでの継続時間(秒) : <span id="growSec">0</span></p>
+        <input type="text" id="inputText" placeholder="TENの色：英数字">
+    </div>
+    <div id="player"></div>
+    <button onclick="clickShuffle()">音楽シャッフル</button>
+    <div>   
+        <canvas id="mainCanvas" width="200" height="200"></canvas>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</body>
+</html>
