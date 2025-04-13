@@ -9,11 +9,10 @@
 <body>
     <h1>デジタルペット TEN</h1>
     <div>
-        <p>TENは、このページを開いているあいだ、どんどん大きく成長します。</p>
-        <p>このページを離れると、TENは小さく戻ってしまいます。</p>
-        <p>勉強しているときなど、画面を触っちゃだめなときに</p>
-        <p>いっしょに育ててあげてください。</p>
-        <p>ここまでの継続時間(秒) : <span id="growSec">0</span></p>
+        <p>TENは、時間の経過でどんどん大きく成長します。</p>
+        <p>でも、24時間放置するとTENは小さく戻ってしまいます。</p>
+        <p>たくさん見に来て、大きく育ててあげてください。</p>
+        <p>いまのTENのサイズ：<span id="tenSize">0</span></p>
         <input type="text" id="inputText" placeholder="TENの色：英数字">
     </div>
     <div id="player"></div>
@@ -21,6 +20,7 @@
     <div>   
         <canvas id="mainCanvas" width="200" height="200"></canvas>
     </div>
+    <div id="resetButton"><button onclick="resetDataSize()">リセット</button></div>
     <script src="script.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </body>

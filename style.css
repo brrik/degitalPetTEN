@@ -3,7 +3,7 @@ body{
 }
 
 #mainCanvas{
-    margin:auto auto;
+    margin:10%;
 }
 
 
@@ -11,4 +11,10 @@ body{
     position: fixed;
     left: 0;
     bottom: 0;
+}
+
+#resetButton{
+    position: fixed;
+    right:0;
+    bottom:0;
 }

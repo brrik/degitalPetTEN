@@ -1,13 +1,11 @@
 const x = document.querySelector("#mainCanvas");
 const ctx = x.getContext("2d");
 
+let tenDataSize = 1000;
+let tenWidth = tenDataSize/100;
+let tenHeight = tenDataSize/100;
 
-let tenWidth = 10;
-let tenHeight = 10;
-let tenOrigWidth = tenWidth;
-let tenOrigHeight = tenHeight;
-
-let growth = 0.2;
+let growth = 1;
 
 let timer = 0;
 
@@ -96,30 +94,24 @@ function short(){
 }
 
 function addSize(){
-    tenOrigWidth+=growth
-    tenOrigHeight+=growth
-    tenWidth = Math.floor(tenOrigWidth)
-    tenHeight = Math.floor(tenOrigWidth)
-    console.log(tenHeight)
-    console.log(tenWidth)
+    tenDataSize+=growth
+    localStorage.setItem(KEY, now());
+    localStorage.setItem("dataSize", tenDataSize)
+    tenWidth = tenDataSize/100
+    tenHeight = tenDataSize/100
+    console.log(localStorage.getItem("dataSize"))
 }
 
-window.addEventListener("blur", () =>{
-    tenWidth = 10;
-    tenHeight = 10;
-    tenOrigWidth = tenWidth;
-    tenOrigHeight = tenHeight;
-    timer = 0;
-})
-
-window.addEventListener("focus", () =>{
-    tenWidth = 10;
-    tenHeight = 10;
-    tenOrigWidth = tenWidth;
-    tenOrigHeight = tenHeight;
-    timer = 0;
-})
-
+function afkAddSize(sec){
+    let wholeGrowth = growth * sec
+    console.log("時間経過によって、", wholeGrowth, "秒分成長しました。")
+    tenDataSize+=wholeGrowth
+    localStorage.setItem(KEY, now());
+    localStorage.setItem("dataSize", tenDataSize)
+    tenWidth = tenDataSize/100
+    tenHeight = tenDataSize/100
+    console.log(tenDataSize)
+}
 
 function stringToColor(str) {
     let hash = 0;
@@ -147,17 +139,75 @@ input.addEventListener('input', () => {
     console.log(color)
 });
 
+const KEY = 'connectedAt';
+const EXPIRATION_MINUTES = 10; // 例：60分 = 1時間
+
+function now() {
+    return Math.floor(Date.now() / 1000);
+}
+
+// 初回接続時 or 再訪問時に呼ぶ
+function initialConnectionCheck() {
+    const stored = localStorage.getItem(KEY);
+    const storedDataSize = localStorage.getItem("dataSize");
+
+    if (!storedDataSize){
+        localStorage.setItem("dataSize",1000)
+    }else{
+        tenDataSize = parseInt(storedDataSize, 10)
+        const elapsed = now() - parseInt(stored, 10);
+        afkAddSize(elapsed)
+        console.log(storedDataSize)
+        console.log("this is a data size:", tenDataSize)
+    }
+
+    if (!stored) {
+        console.log('初回訪問。現在時刻を保存します。');
+        localStorage.setItem(KEY, now());
+    } else {
+        const elapsed = now() - parseInt(stored, 10);
+        console.log(`接続後の経過時間：${elapsed} 秒`);
+        if (elapsed >= EXPIRATION_MINUTES) {
+            console.log('指定時間を超えたので、記録を削除します。');
+            localStorage.removeItem(KEY);
+            localStorage.removeItem(storedDataSize)
+        // ここでUIを更新してもOK（例：メッセージ表示）
+        }
+    }
+}
+
+function checkConnectionTime() {
+    const stored = localStorage.getItem(KEY);
+
+    if (!stored) {
+        console.log('初回訪問。現在時刻を保存します。');
+        localStorage.setItem(KEY, now());
+    } else {
+        localStorage.setItem(KEY, now())
+    }
+}
+
+function setSize(){
+    let doc = document.querySelector("#tenSize")
+    doc.innerHTML = tenDataSize/100;
+}
+
+function resetDataSize(){
+    tenDataSize = 1000;
+    localStorage.setItem("dataSize", 1000)
+}
+
+initialConnectionCheck()
 
 setInterval(() => {
-    timer+=1;
-    document.querySelector("#growSec").innerHTML = timer;
     long();
     addSize();
+    setSize();
     setTimeout(() => {
-        timer+=1
-        document.querySelector("#growSec").innerHTML = timer;
-        console.log("hoge")
+        addSize();
+        setSize();
+        checkConnectionTime()
         short();
     }, (1000));
-    console.log("fuga")
+    checkConnectionTime()
 }, 2000);
