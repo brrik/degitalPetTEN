@@ -4,13 +4,11 @@ const ctx = x.getContext("2d");
 let tenDataSize = 1000;
 let tenWidth = tenDataSize/100;
 let tenHeight = tenDataSize/100;
-
 let growth = 1;
-
 let timer = 0;
-
 let color = "#c80000"
-
+const KEY = 'connectedAt';
+const EXPIRATION_MINUTES = 86400; // 例：60分 = 1時間
 
 x.width = tenWidth
 x.height = tenHeight
@@ -124,6 +122,8 @@ function stringToColor(str) {
         const value = (hash >> (i * 8)) & 0xFF;
         color += ('00' + value.toString(16)).slice(-2);
     }
+
+    localStorage.setItem("color", color)
     return color;
 }
 
@@ -139,9 +139,6 @@ input.addEventListener('input', () => {
     console.log(color)
 });
 
-const KEY = 'connectedAt';
-const EXPIRATION_MINUTES = 10; // 例：60分 = 1時間
-
 function now() {
     return Math.floor(Date.now() / 1000);
 }
@@ -150,6 +147,13 @@ function now() {
 function initialConnectionCheck() {
     const stored = localStorage.getItem(KEY);
     const storedDataSize = localStorage.getItem("dataSize");
+    const storedColor = localStorage.getItem("color");
+
+    if (!storedColor){
+        localStorage.setItem("color", "#c80000")
+    }else{
+        color = localStorage.getItem("color");
+    }
 
     if (!storedDataSize){
         localStorage.setItem("dataSize",1000)
