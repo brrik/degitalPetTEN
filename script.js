@@ -93,7 +93,6 @@ function short(){
 
 function addSize(){
     tenDataSize+=growth
-    localStorage.setItem(KEY, now());
     localStorage.setItem("dataSize", tenDataSize)
     tenWidth = tenDataSize/100
     tenHeight = tenDataSize/100
@@ -104,7 +103,6 @@ function afkAddSize(sec){
     let wholeGrowth = growth * sec
     console.log("時間経過によって、", wholeGrowth, "秒分成長しました。")
     tenDataSize+=wholeGrowth
-    localStorage.setItem(KEY, now());
     localStorage.setItem("dataSize", tenDataSize)
     tenWidth = tenDataSize/100
     tenHeight = tenDataSize/100
@@ -148,6 +146,7 @@ function initialConnectionCheck() {
     const stored = localStorage.getItem(KEY);
     const storedDataSize = localStorage.getItem("dataSize");
     const storedColor = localStorage.getItem("color");
+    console.log("last time, it was ", parseInt(localStorage.getItem(KEY)))
     console.log("now it's ",now())
     if (!storedColor){
         localStorage.setItem("color", "#c80000")
