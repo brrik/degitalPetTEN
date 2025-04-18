@@ -1,7 +1,8 @@
 const x = document.querySelector("#mainCanvas");
 const ctx = x.getContext("2d");
 
-let tenDataSize = 1000;
+let tenOrigSize = 100;
+let tenDataSize = tenOrigSize;
 let tenWidth = tenDataSize/100;
 let tenHeight = tenDataSize/100;
 let growth = 1;
@@ -189,8 +190,8 @@ function setSize(){
 }
 
 function resetDataSize(){
-    tenDataSize = 1000;
-    localStorage.setItem("dataSize", 1000)
+    tenDataSize = tenOrigSize;
+    localStorage.setItem("dataSize", tenOrigSize)
 }
 
 window.addEventListener("blur",leaveSite)
@@ -203,8 +204,6 @@ setInterval(() => {
     addSize();
     setSize();
     setTimeout(() => {
-        addSize();
-        setSize();
         short();
     }, (1000));
 }, 2000);
