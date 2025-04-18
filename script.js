@@ -205,11 +205,9 @@ function resetDataSize(){
 }
 
 window.addEventListener("blur",leaveSite())
-
+window.addEventListener("beforeunload",leaveSite())
 window.addEventListener("focus",initialConnectionCheck())
-
-
-initialConnectionCheck()
+window.addEventListener("load",initialConnectionCheck())
 
 setInterval(() => {
     long();
