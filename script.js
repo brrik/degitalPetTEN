@@ -148,7 +148,7 @@ function initialConnectionCheck() {
     const stored = localStorage.getItem(KEY);
     const storedDataSize = localStorage.getItem("dataSize");
     const storedColor = localStorage.getItem("color");
-
+    console.log("now it's ",now())
     if (!storedColor){
         localStorage.setItem("color", "#c80000")
     }else{
@@ -179,18 +179,8 @@ function initialConnectionCheck() {
     }
 }
 
-function checkConnectionTime() {
-    const stored = localStorage.getItem(KEY);
-
-    if (!stored) {
-        console.log('初回訪問。現在時刻を保存します。');
-        localStorage.setItem(KEY, now());
-    } else {
-        localStorage.setItem(KEY, now())
-    }
-}
-
 function leaveSite(){
+    console.log("leaving at ", now())
     localStorage.setItem(KEY,now())
 }
 
@@ -204,10 +194,10 @@ function resetDataSize(){
     localStorage.setItem("dataSize", 1000)
 }
 
-window.addEventListener("blur",leaveSite())
-window.addEventListener("beforeunload",leaveSite())
-window.addEventListener("focus",initialConnectionCheck())
-window.addEventListener("load",initialConnectionCheck())
+window.addEventListener("blur",leaveSite)
+window.addEventListener("beforeunload",leaveSite)
+window.addEventListener("focus",initialConnectionCheck)
+window.addEventListener("load",initialConnectionCheck)
 
 setInterval(() => {
     long();
@@ -216,8 +206,6 @@ setInterval(() => {
     setTimeout(() => {
         addSize();
         setSize();
-        checkConnectionTime()
         short();
     }, (1000));
-    checkConnectionTime()
 }, 2000);
