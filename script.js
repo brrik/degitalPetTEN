@@ -166,8 +166,7 @@ function initialConnectionCheck() {
     }
 
     if (!stored) {
-        console.log('初回訪問。現在時刻を保存します。');
-        localStorage.setItem(KEY, now());
+        console.log('初回訪問。');
     } else {
         const elapsed = now() - parseInt(stored, 10);
         console.log(`接続後の経過時間：${elapsed} 秒`);
@@ -191,6 +190,10 @@ function checkConnectionTime() {
     }
 }
 
+function leaveSite(){
+    localStorage.setItem(KEY,now())
+}
+
 function setSize(){
     let doc = document.querySelector("#tenSize")
     doc.innerHTML = tenDataSize/100;
@@ -200,6 +203,11 @@ function resetDataSize(){
     tenDataSize = 1000;
     localStorage.setItem("dataSize", 1000)
 }
+
+window.addEventListener("blur",leaveSite())
+
+window.addEventListener("focus",initialConnectionCheck())
+
 
 initialConnectionCheck()
 
